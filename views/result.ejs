@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IEI Certificate Verification Result</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header class="header">
+        <h1>Institution of Engineers India - VIT-AP</h1>
+        <img src="/ieilogo.png" alt="IEI Logo" class="logo">
+    </header>
+   <main>
+    <div class="card">
+        <% if (notFound) { %>
+            <h2>No Certificate Found ❌</h2>
+            <p>Please check the Verification ID and try again.</p>
+        <% } else { %>
+            <h2>Certificate Details ✅</h2>
+            <p><strong>Name:</strong> <%= name %></p>
+            <p><strong>Roll Number:</strong> <%= roll_number %></p>
+            <p><strong>College:</strong> <%= college %></p>
+            <p><strong>Certificate Type:</strong> <%= certificate_type %></p>
+            <p><strong>Issue Date:</strong> <%= issue_date %></p>
+            <p><strong>Event Name:</strong> <%= event_name %></p>
+        <% } %>
+    </div>
+</main>
+
+
+    <footer>
+        <p>&copy; 2025 Institution of Engineers India - VIT-AP. All rights reserved.</p>
+    </footer>
+</body>
+</html>

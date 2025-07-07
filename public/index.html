@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IEI Certificate Verification</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header class="header">
+        <h1>Institution of Engineers India - VIT-AP</h1>
+        <img src="ieilogo.png" alt="IEI Logo" class="logo">
+    </header>
+
+    <main>
+        <div class="card">
+            <p>Please enter the verification ID to verify the certificate:</p>
+            <form id="verificationForm" method="POST" action="/verify">
+                <label for="verificationId">Verification ID:</label>
+                <input type="text" id="verificationId" name="verificationId" required>
+                <button type="submit">Verify</button>
+            </form>
+            <br>
+            <p>Or, you can scan the QR code on the certificate:</p>
+        </div>
+        <div class="contact">
+            <p>If you have any issues, please contact us at :</p>
+            <p> Email: <a href="mailto:mounvikkarnati@gmail.com">mounvikkarnati@gmail.com</a></p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Institution of Engineers India - VIT-AP. All rights reserved by Mounvik.</p>
+    </footer>
+    <script>
+document.getElementById("verificationForm").addEventListener("submit", function (e) {
+    e.preventDefault(); // prevent form from submitting normally
+    const id = document.getElementById("verificationId").value.trim();
+    if (id) {
+        window.location.href = `/verify?id=${encodeURIComponent(id)}`;
+    }
+});
+</script>
+
+</body>
+</html>
