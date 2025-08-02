@@ -2,19 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>IEI Certificate Verification</title>
+    <title>Certificate Verification</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header class="header">
-        <h1>Institution of Engineers India - VIT-AP</h1>
-        <img src="ieilogo.png" alt="IEI Logo" class="logo">
+        <h1>Photon Club - VIT-AP</h1>
+        <img src="photonlogo.png" alt="Photon Logo" class="logo">
     </header>
 
     <main>
         <div class="card">
             <p>Please enter the verification ID to verify the certificate</p>
-            <form id="verificationForm" method="POST" action="/verify">
+            <form id="verification  Form" method="POST" action="/verify">
                 <label for="verificationId">Verification ID:</label>
                 <input type="text" id="verificationId" name="verificationId" required>
                 <button type="submit">Verify</button>
@@ -29,11 +29,11 @@
     </main>
 
     <footer>
-        <p>&copy; 2025 Institution of Engineers India - VIT-AP. All rights reserved by Mounvik.</p>
+        <p>&copy; 2025 Designed and developed by Mounvik. All rights reserved.</p>
     </footer>
     <script>
-document.getElementById("verificationForm").addEventListener("submit", function (e) {
-    e.preventDefault(); // prevent form from submitting normally
+    document.getElementById("verification  Form").addEventListener("submit", function (e) {
+    e.preventDefault();
     const id = document.getElementById("verificationId").value.trim();
     if (id) {
         window.location.href = `/verify?id=${encodeURIComponent(id)}`;
