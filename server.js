@@ -4,8 +4,7 @@ const path = require('path');
 const fs = require('fs');
 
 const app = express();
-const port = process.env.PORT; // Render always sets this
-
+const port = process.env.PORT || 3000; // ✅ Only once
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
@@ -22,25 +21,29 @@ app.get('/', (req, res) => {
 app.post('/verify', (req, res) => {
   const verificationId = req.body.verificationId?.trim();
 
-  // Load data.json
-  const rawData = fs.readFileSync(path.join(__dirname, 'data.json'));
-  const certificates = JSON.parse(rawData);
+  try {
+    const rawData = fs.readFileSync(path.join(__dirname, 'data.json'));
+    const certificates = JSON.parse(rawData);
 
-  const cert = certificates.find(c => c.verification_id === verificationId);
+    const cert = certificates.find(c => c.verification_id === verificationId);
 
-  if (!cert) {
-    return res.render('result', { notFound: true });
+    if (!cert) {
+      return res.render('result', { notFound: true });
+    }
+
+    res.render('result', {
+      notFound: false,
+      name: cert.name,
+      roll_number: cert.roll_number,
+      college: cert.college,
+      certificate_type: cert.certificate_type,
+      issue_date: cert.issue_date,
+      event_name: cert.event_name
+    });
+  } catch (err) {
+    console.error("❌ Error reading data.json:", err);
+    res.status(500).send("Internal Server Error");
   }
-
-  res.render('result', {
-    notFound: false,
-    name: cert.name,
-    roll_number: cert.roll_number,
-    college: cert.college,
-    certificate_type: cert.certificate_type,
-    issue_date: cert.issue_date,
-    event_name: cert.event_name
-  });
 });
 
 // GET /verify?id=xxxx (direct link)
@@ -48,24 +51,29 @@ app.get('/verify', (req, res) => {
   const certId = req.query.id?.trim();
   if (!certId) return res.send("No certificate ID provided.");
 
-  const rawData = fs.readFileSync(path.join(__dirname, 'data.json'));
-  const certificates = JSON.parse(rawData);
+  try {
+    const rawData = fs.readFileSync(path.join(__dirname, 'data.json'));
+    const certificates = JSON.parse(rawData);
 
-  const cert = certificates.find(c => c.verification_id === certId);
+    const cert = certificates.find(c => c.verification_id === certId);
 
-  if (!cert) {
-    return res.render('result', { notFound: true });
+    if (!cert) {
+      return res.render('result', { notFound: true });
+    }
+
+    res.render('result', {
+      notFound: false,
+      name: cert.name,
+      roll_number: cert.roll_number,
+      college: cert.college,
+      certificate_type: cert.certificate_type,
+      issue_date: cert.issue_date,
+      event_name: cert.event_name
+    });
+  } catch (err) {
+    console.error("❌ Error reading data.json:", err);
+    res.status(500).send("Internal Server Error");
   }
-
-  res.render('result', {
-    notFound: false,
-    name: cert.name,
-    roll_number: cert.roll_number,
-    college: cert.college,
-    certificate_type: cert.certificate_type,
-    issue_date: cert.issue_date,
-    event_name: cert.event_name
-  });
 });
 
 // Start server
