@@ -4,7 +4,9 @@ const path = require('path');
 const fs = require('fs');
 
 const app = express();
-const port = process.env.PORT || 3000; // ✅ Only once
+
+// Use env variable for data.json path
+const dataFilePath = process.env.DATA_FILE_PATH || path.join(__dirname, 'data.json');
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
@@ -22,7 +24,7 @@ app.post('/verify', (req, res) => {
   const verificationId = req.body.verificationId?.trim();
 
   try {
-    const rawData = fs.readFileSync(path.join(__dirname, 'data.json'));
+    const rawData = fs.readFileSync(dataFilePath);
     const certificates = JSON.parse(rawData);
 
     const cert = certificates.find(c => c.verification_id === verificationId);
@@ -42,7 +44,7 @@ app.post('/verify', (req, res) => {
     });
   } catch (err) {
     console.error("❌ Error reading data.json:", err);
-    res.status(500).send("Internal Server Error");
+    res.status(500).send("Server Error: Could not read certificates.");
   }
 });
 
@@ -52,7 +54,7 @@ app.get('/verify', (req, res) => {
   if (!certId) return res.send("No certificate ID provided.");
 
   try {
-    const rawData = fs.readFileSync(path.join(__dirname, 'data.json'));
+    const rawData = fs.readFileSync(dataFilePath);
     const certificates = JSON.parse(rawData);
 
     const cert = certificates.find(c => c.verification_id === certId);
@@ -72,11 +74,12 @@ app.get('/verify', (req, res) => {
     });
   } catch (err) {
     console.error("❌ Error reading data.json:", err);
-    res.status(500).send("Internal Server Error");
+    res.status(500).send("Server Error: Could not read certificates.");
   }
 });
 
 // Start server
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`✅ Server running at http://localhost:${port}`);
 });
